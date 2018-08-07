@@ -1,0 +1,73 @@
+---
+title: "BIOINF703 Lab 1"
+author: "Badi James"
+date: "August 7, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(network)
+library(sna)
+source("networkLabHelper.R")
+G <- readGraphFromFile("labNet.txt")
+```
+
+## Plotting G
+
+
+```{r plottingG}
+plot.network(G, usearrows =TRUE, mode = "kamadakawai")
+```
+
+## Plotting degree
+
+
+
+```{r degree}
+gNodeDegs <- degree(G, gmode = "graph")
+hist(gNodeDegs)
+
+```
+
+## Binomial 
+
+```{r binomial}
+gDegMean <- mean(gNodeDegs)
+n <- length(gNodeDegs)
+prob <- gDegMean / (n-1)
+binomDegs <- rbinom(n, n-1, prob)
+hist(binomDegs)
+
+```
+
+## scale free degree
+
+```{r scalefree}
+k = 2:(n-1)
+gam <- 1
+plot(k,k^(-gam),ylab = "unnormalized density",
+     main = paste("Power-law distribution with gamma =",gam))
+```
+
+```{r scalefree2}
+gam <- 2
+plot(k,k^(-gam),ylab = "unnormalized density",
+     main = paste("Power-law distribution with gamma =",gam))
+```
+
+```{r scalefree3}
+gam <- 3
+plot(k,k^(-gam),ylab = "unnormalized density",
+     main = paste("Power-law distribution with gamma =",gam))
+```
+
+## Making 200 ER graphs
+
+```{r 200ER}
+er200 <- rep(list(sampleER(n, prob)), 200)
+er200Btwn <- lapply(er200, betweenness)
+er200MeanBtwn <- lapply(er200Btwn, mean)
+hist(er200MeanBtwn)
+```
+
