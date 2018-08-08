@@ -64,10 +64,25 @@ plot(k,k^(-gam),ylab = "unnormalized density",
 
 ## Making 200 ER graphs
 
-```{r 200ER}
-er200 <- rep(list(sampleER(n, prob)), 200)
-er200Btwn <- lapply(er200, betweenness)
-er200MeanBtwn <- lapply(er200Btwn, mean)
+```{r 200ER Betweenness}
+er200 <- sapply(rep(n, 200), function(x) list(sampleER(x, prob)))
+er200Btwn <- sapply(er200, betweenness, gmode = "graph", cmode = "undirected")
+er200MeanBtwn <- apply(er200Btwn, 2, mean)
+gBetween <- betweenness(G, gmode = "graph", cmode = "undirected")
+gMeanBtwn <- mean(gBetween)
 hist(er200MeanBtwn)
+abline(v = gMeanBtwn, col = "red")
 ```
 
+```{r 200ER degree centrality}
+er200DegCen <- sapply(er200, degree, gmode = "graph")
+er200MeanDegCen <- apply(er200DegCen, 2, mean)
+gDegCen <- degree(G, gmode = "graph")
+gMeanDegCen <- mean(gDegCen)
+hist(er200MeanDegCen)
+abline(v = gMeanDegCen, col = "red")
+
+```
+
+```{r 200ER local clustering coefficient}
+```
