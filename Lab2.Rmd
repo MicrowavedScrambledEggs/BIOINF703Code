@@ -17,50 +17,48 @@ G <- readGraphFromFile("labNet.txt")
 
 
 ```{r plottingG}
-plot.network(G, usearrows =TRUE, mode = "kamadakawai")
+plot.network(G, mode = "circle", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.1))
 ```
 
 ## Plotting degree
 
-
-
 ```{r degree}
 gNodeDegs <- degree(G, gmode = "graph")
-hist(gNodeDegs)
+hist(gNodeDegs, ylim = c(0,35), xlim = c(0,100), xlab = "Degree", main = "Degree distribution of G")
 
 ```
 
-## Binomial 
+## Binomial (Simulating an Erdos-Renyi model for G)
 
 ```{r binomial}
 gDegMean <- mean(gNodeDegs)
 n <- length(gNodeDegs)
 prob <- gDegMean / (n-1)
 binomDegs <- rbinom(n, n-1, prob)
-hist(binomDegs)
+hist(binomDegs, ylim = c(0,35), xlim = c(0,100), xlab = "Degree", 
+     main = "Degree distribution of ER network of same size and mean degree of G")
 
 ```
+
+G has a broad range of degree values. Variance is high, so many degree values are not clustered around the mean.
+As an ER network of the same size and mean degree has a narrower range of degree values clustered around the mean it is not a representative model of G. It is missing nodes of very low and very high degree, unlike G. 
 
 ## scale free degree
 
 ```{r scalefree}
 k = 2:(n-1)
-gam <- 1
-plot(k,k^(-gam),ylab = "unnormalized density",
-     main = paste("Power-law distribution with gamma =",gam))
+unnormDensGam1 <- k^(-1)
+unnormDensGam2 <- k^(-2)
+unnormDensGam3 <- k^(-3)
+
+plot(k,unnormDensGam1, type= "l", ylab = "unnormalized density", col="red",
+     main = "Power-law distribution with")
+lines(k, unnormDensGam2, col="blue")
+lines(k, unnormDensGam3, col="green")
+legend("center", legend = c("Gamma = 1", "Gamma = 2", "Gamma = 3"), col= c("red", "blue", "green"), lty = c(1,1,1))
 ```
 
-```{r scalefree2}
-gam <- 2
-plot(k,k^(-gam),ylab = "unnormalized density",
-     main = paste("Power-law distribution with gamma =",gam))
-```
-
-```{r scalefree3}
-gam <- 3
-plot(k,k^(-gam),ylab = "unnormalized density",
-     main = paste("Power-law distribution with gamma =",gam))
-```
+Scale free networks would be poor models for G as the high frequency of nodes with low degree is not characteristic of G. Out of the gamma values plotted above, a scale free network with gamma of 1 would be the best of the 3 scale free networks for modelling G as it has the higher frequency of nodes with higher degree. 
 
 ## Making 200 ER graphs
 
@@ -85,4 +83,33 @@ abline(v = gMeanDegCen, col = "red")
 ```
 
 ```{r 200ER local clustering coefficient}
+er200LCC <- sapply(er200, localclustering)
+gLCC <- localclustering(G)
+hist(er200LCC, xlim = c(0.4,0.9))
+abline(v = gLCC, col = "red")
+```
+
+
+## Making 200 graphs sampled from the degree distribution of G
+
+```{r 200dd Betweenness}
+dd200 <- sapply(rep(1, 200), function(x) list(rgraphFromDegreeDist(G)))
+dd200Btwn <- sapply(dd200, betweenness, gmode = "graph", cmode = "undirected")
+dd200MeanBtwn <- apply(dd200Btwn, 2, mean)
+hist(dd200MeanBtwn, xlim = c(31, 42))
+abline(v = gMeanBtwn, col = "red")
+```
+
+```{r 200dd degree centrality}
+dd200DegCen <- sapply(dd200, degree, gmode = "graph")
+dd200MeanDegCen <- apply(dd200DegCen, 2, mean)
+hist(dd200MeanDegCen)
+abline(v = gMeanDegCen, col = "red")
+
+```
+
+```{r 200dd local clustering coefficient}
+dd200LCC <- sapply(dd200, localclustering)
+hist(dd200LCC, xlim = c(0.5,0.85))
+abline(v = gLCC, col = "red")
 ```
