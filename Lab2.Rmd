@@ -10,14 +10,13 @@ knitr::opts_chunk$set(echo = TRUE)
 library(network)
 library(sna)
 source("networkLabHelper.R")
-G <- readGraphFromFile("labNet.txt")
+G <- readGraphFromFile("labNet.txt", returnNames = TRUE)
 ```
 
 ## Plotting G
 
-
 ```{r plottingG}
-plot.network(G, mode = "circle", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.1))
+plot.network(G, mode = "kamadakawai", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.05))
 ```
 
 ## Plotting degree
@@ -52,7 +51,7 @@ unnormDensGam2 <- k^(-2)
 unnormDensGam3 <- k^(-3)
 
 plot(k,unnormDensGam1, type= "l", ylab = "unnormalized density", col="red",
-     main = "Power-law distribution with")
+     main = "Power-law distributions")
 lines(k, unnormDensGam2, col="blue")
 lines(k, unnormDensGam3, col="green")
 legend("center", legend = c("Gamma = 1", "Gamma = 2", "Gamma = 3"), col= c("red", "blue", "green"), lty = c(1,1,1))
@@ -68,27 +67,41 @@ er200Btwn <- sapply(er200, betweenness, gmode = "graph", cmode = "undirected")
 er200MeanBtwn <- apply(er200Btwn, 2, mean)
 gBetween <- betweenness(G, gmode = "graph", cmode = "undirected")
 gMeanBtwn <- mean(gBetween)
-hist(er200MeanBtwn)
+hist(er200MeanBtwn, xlim = c(29, 32), xlab = "mean betweenness",
+     main = paste("Mean betweenness of ER networks of n =", n, "and p =", round(prob,4)))
 abline(v = gMeanBtwn, col = "red")
+legend("topleft", legend = c("Mean betweenness of G"), col = c("red"), lty = c(1))
 ```
 
-```{r 200ER degree centrality}
-er200DegCen <- sapply(er200, degree, gmode = "graph")
-er200MeanDegCen <- apply(er200DegCen, 2, mean)
-gDegCen <- degree(G, gmode = "graph")
-gMeanDegCen <- mean(gDegCen)
-hist(er200MeanDegCen)
-abline(v = gMeanDegCen, col = "red")
-
+```{r 200ER degree centralization}
+er200DegCen <- sapply(er200, function(x) centralization(x, degree, mode = "graph"))
+gDegCen <- centralization(G, degree, mode = "graph")
+hist(er200DegCen, xlab = "Degree centralization", xlim = c(0.06, 0.44), 
+     main = paste("Degree centralization of ER networks of n =", n, "and p =", round(prob,4)))
+abline(v = gDegCen, col = "red")
+legend("top", legend = c("Degree centralization of G"), col = c("red"), lty = c(1))
 ```
 
 ```{r 200ER local clustering coefficient}
 er200LCC <- sapply(er200, localclustering)
 gLCC <- localclustering(G)
-hist(er200LCC, xlim = c(0.4,0.9))
+hist(er200LCC, xlim = c(0.4,0.9), xlab = "mean local clustering coefficient",
+     main = paste("Mean local clustering coefficient of \nER networks of n =", n, "and p =", round(prob,4)))
 abline(v = gLCC, col = "red")
+legend("center", legend = c("Mean local clustering \ncoefficient of G"), col = c("red"), lty = c(1))
 ```
 
+Betweenness is a measure of node importance via how often it appears on the shortest paths between pairs of nodes in the network. 
+$\displaystyle C_b(u) = \sum_{t,s \in V}\frac{\sigma_{st}(u)}{\sigma_{st}}$
+$\sigma_{st}(u)$ = number of shortest paths from node $s$ to node $t$ that go through node u
+$\sigma_{st}$ = total number of shortest paths from node $s$ to node $t$
+
+Degree centralization is a measure of how much the degree of the nodes in a network deviate from the max degree in the network (normalised to the theoretical max degree possible).
+$\displaystyle deg^*(G) = \sum_{i\in V}|\max_{v \in V}(deg(v)) - deg(i)|$
+
+Local clustering coefficient of a node $u$ is a measure of the connectedness of the nodes in $u$'s neighbourhood. More formally it is a measure of number of edges between the nodes in $u$'s neighbourhood (not including edges with $u$) over the total number of edges possible for the neighbourhood.
+
+From the above histograms we can see that ER is a poor model for G. The smaller variance in degree compared to G is reflected in the degree centralization histogram, with the value for G falling considerably outside the distribution of the ER values. The Mean local clustering coefficient histogram shows that G's neighbourhoods are considerably more connected than those of a ER network. As can be expected from the higher frequency of nodes with degree lower than the mean, the mean betweenness of G is higher than the mean betweenness of all the ER networks, as the nodes with lower degree will typically have less shortest paths between them.
 
 ## Making 200 graphs sampled from the degree distribution of G
 
@@ -96,20 +109,32 @@ abline(v = gLCC, col = "red")
 dd200 <- sapply(rep(1, 200), function(x) list(rgraphFromDegreeDist(G)))
 dd200Btwn <- sapply(dd200, betweenness, gmode = "graph", cmode = "undirected")
 dd200MeanBtwn <- apply(dd200Btwn, 2, mean)
-hist(dd200MeanBtwn, xlim = c(31, 42))
+hist(dd200MeanBtwn, xlim = c(31, 43), xlab = "mean betweenness",
+     main = paste("Mean betweenness of networks sampled from degree distribution of G"))
 abline(v = gMeanBtwn, col = "red")
+legend("topleft", legend = c("Mean betweenness of G"), col = c("red"), lty = c(1))
 ```
 
-```{r 200dd degree centrality}
-dd200DegCen <- sapply(dd200, degree, gmode = "graph")
-dd200MeanDegCen <- apply(dd200DegCen, 2, mean)
-hist(dd200MeanDegCen)
-abline(v = gMeanDegCen, col = "red")
-
+```{r 200dd degree centralizaion}
+dd200DegCen <- sapply(dd200, function(x) centralization(x, degree, mode = "graph"))
+hist(dd200DegCen, xlab = "Degree centralization",
+     main = paste("Degree centralization of networks \nsampled from degree distribution of G"))
+abline(v = gDegCen, col = "red")
+legend(0.367, 40, legend = c("Degree centralization of G"), col = c("red"), lty = c(1))
 ```
 
 ```{r 200dd local clustering coefficient}
 dd200LCC <- sapply(dd200, localclustering)
-hist(dd200LCC, xlim = c(0.5,0.85))
+hist(dd200LCC, xlim = c(0.5,0.85), xlab = "Mean Local Clustering Coefficient",
+     main = "Mean local Clustering Coefficient of \nnetworks sampled from degree distribution of G")
 abline(v = gLCC, col = "red")
+legend(0.66, 50, legend = c("Mean local clustering \ncoefficient of G"), col = c("red"), lty = c(1))
 ```
+
+Building a network by sampling from the degree distribution of G provides a model that is at least better than ER. The mean betweenness of these random graphs are all higher than that of G. This is possibly due to how G, being a natural network, would likely have 'hubs' of interconnected nodes and a few nodes that connect the hubs to each other. The hub connecting nodes would have high betweenness but the mean value would be reduced by nodes in the hubs with lower betweenness. As a random graph would not likely share this structure nodes would more likely be on shortest paths between other nodes.
+The degree centralization is centered around the degree centralization of G which is to be expected when sampling from the same degree distribution. The random graphs would have max degree values similar to that of G with the other degree values deviating a similar amount. 
+The mean local clustering coefficient being higher than these random graphs also potentially indicates a 'connected intraconnected hubs' structure. Nodes in these hubs would have high local clustering coefficient. Random graphs without a bias towards connected neighbourhoods would have lower local clustering coefficient.
+
+## If we had a good model for G
+
+If the above historgrams were to be plotted for a good model of G, the values would be distributed around a mean equal to the values for G. A possible model to try for G would be one that, when building the network edge by edge, the probability of an edge between node $s$ and $t$ would increase depending on the size of the intersect between nodes in the neighbourhoods of $s$ and $t$. This would increase the average local clustering coefficient, hopefully better reflecting G.   
