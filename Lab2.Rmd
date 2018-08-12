@@ -10,13 +10,15 @@ knitr::opts_chunk$set(echo = TRUE)
 library(network)
 library(sna)
 source("networkLabHelper.R")
-G <- readGraphFromFile("labNet.txt", returnNames = TRUE)
+GWvNames <- readGraphFromFile("labNet.txt", returnNames = TRUE)
+G <- GWvNames[[1]]
+vNames <- GWvNames[[2]]
 ```
 
 ## Plotting G
 
 ```{r plottingG}
-plot.network(G, mode = "kamadakawai", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.05))
+plot.network(G, mode = "circle", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.05), label = vNames)
 ```
 
 ## Plotting degree
