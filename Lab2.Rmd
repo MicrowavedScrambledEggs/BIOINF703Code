@@ -18,8 +18,12 @@ vNames <- GWvNames[[2]]
 ## Plotting G
 
 ```{r plottingG}
-plot.network(G, mode = "circle", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.05), label = vNames)
+vTidy <- sapply(vNames, function(x) unlist(strsplit(x, "_"))[1])
+
+plot.network(G, mode = "kamadakawai", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.05), label = vTidy, label.cex = 0.5, label.col = "blue")
 ```
+
+This visualization of the network shows with some clarity the conections between the vertexes on the outside of the plot. However for the center of the plot the edges are indistinguishable. This does provide an overall picture of the complexity of the network but does not provide usefull information on the specific connections. A better approach would be to seperate the network into subnetworks. As this is a gene interaction network, the graph could be divided by different known cellular signalling pathways. 
 
 ## Plotting degree
 
@@ -103,7 +107,7 @@ $\displaystyle deg^*(G) = \sum_{i\in V}|\max_{v \in V}(deg(v)) - deg(i)|$
 
 Local clustering coefficient of a node $u$ is a measure of the connectedness of the nodes in $u$'s neighbourhood. More formally it is a measure of number of edges between the nodes in $u$'s neighbourhood (not including edges with $u$) over the total number of edges possible for the neighbourhood.
 
-From the above histograms we can see that ER is a poor model for G. The smaller variance in degree compared to G is reflected in the degree centralization histogram, with the value for G falling considerably outside the distribution of the ER values. The Mean local clustering coefficient histogram shows that G's neighbourhoods are considerably more connected than those of a ER network. As can be expected from the higher frequency of nodes with degree lower than the mean, the mean betweenness of G is higher than the mean betweenness of all the ER networks, as the nodes with lower degree will typically have less shortest paths between them.
+From the above histograms we can see that ER is a poor model for G. The smaller variance in degree compared to G is reflected in the degree centralization histogram, with the value for G falling considerably outside the distribution of the ER values. The Mean local clustering coefficient histogram shows that G's neighbourhoods are considerably more connected than those of a ER network. The mean betweenness of G being higher than the ER networks implies that there are less redundant shortest paths in G compared to the ER networks. The difference in values for these metrics implies G has a structure that gets lost when randomized. Genes with a specific function only involved in a specific pathway will be represented in G as a node with low degree. Likewise regulatory genes like transcription factors involved in multiple pathways would be represented as nodes of high degree. These nodes would not occur in graphs like ER where every node has roughly the same degree. How genes in the same pathways often regulate each other in various feedback loops is reflected in G's higher than random local clustering coefficient. 
 
 ## Making 200 graphs sampled from the degree distribution of G
 
@@ -133,9 +137,9 @@ abline(v = gLCC, col = "red")
 legend(0.66, 50, legend = c("Mean local clustering \ncoefficient of G"), col = c("red"), lty = c(1))
 ```
 
-Building a network by sampling from the degree distribution of G provides a model that is at least better than ER. The mean betweenness of these random graphs are all higher than that of G. This is possibly due to how G, being a natural network, would likely have 'hubs' of interconnected nodes and a few nodes that connect the hubs to each other. The hub connecting nodes would have high betweenness but the mean value would be reduced by nodes in the hubs with lower betweenness. As a random graph would not likely share this structure nodes would more likely be on shortest paths between other nodes.
+Building a network by sampling from the degree distribution of G provides a model that is at least better than ER, but still looses the structures present in G. Unlike ER, the mean betweenness of these random graphs are all higher than that of G. This is possibly due to how G, being a natural network, would likely have intraconnected neigbourhoods representing specific pathways and a few nodes that connect the neighbourhoods to each other. The neigbourhood connecting nodes would have high betweenness but the mean value would be reduced by nodes in the neigbourhoods. This is because for a node in a neighbourhood $v$, it would be unlikely to be on the shortest path between a pair of nodes where neither node are in $v$'s neighbourhood. As a random graph would not likely share this structure nodes would more likely be on shortest paths between other nodes.
 The degree centralization is centered around the degree centralization of G which is to be expected when sampling from the same degree distribution. The random graphs would have max degree values similar to that of G with the other degree values deviating a similar amount. 
-The mean local clustering coefficient being higher than these random graphs also potentially indicates a 'connected intraconnected hubs' structure. Nodes in these hubs would have high local clustering coefficient. Random graphs without a bias towards connected neighbourhoods would have lower local clustering coefficient.
+Just like with ER networks, the mean local clustering coefficient are higher than these random graphs, also potentially indicating a 'connected intraconnected neigbourhoods' structure. Random graphs without a bias towards connected neighbourhoods would have lower local clustering coefficient.
 
 ## If we had a good model for G
 
