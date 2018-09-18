@@ -1,0 +1,365 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={BIOINF703 Lab 1},
+            pdfauthor={Badi James},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{BIOINF703 Lab 1}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Badi James}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{August 7, 2018}
+
+
+\begin{document}
+\maketitle
+
+\subsection{Plotting G}\label{plotting-g}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vTidy <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(vNames, }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{unlist}\NormalTok{(}\KeywordTok{strsplit}\NormalTok{(x, }\StringTok{"_"}\NormalTok{))[}\DecValTok{1}\NormalTok{])}
+
+\KeywordTok{plot.network}\NormalTok{(G, }\DataTypeTok{mode =} \StringTok{"kamadakawai"}\NormalTok{, }\DataTypeTok{edge.col =} \KeywordTok{rgb}\NormalTok{(}\DataTypeTok{red =} \DecValTok{0}\NormalTok{, }\DataTypeTok{blue =} \DecValTok{0}\NormalTok{, }\DataTypeTok{green =} \DecValTok{0}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{0.05}\NormalTok{), }\DataTypeTok{label =}\NormalTok{ vTidy, }\DataTypeTok{label.cex =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{label.col =} \StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/plottingG-1.pdf}
+
+This visualization of the network shows with some clarity the conections
+between the vertexes on the outside of the plot. However for the center
+of the plot the edges are indistinguishable. This does provide an
+overall picture of the complexity of the network but does not provide
+usefull information on the specific connections. A better approach would
+be to seperate the network into subnetworks. As this is a gene
+interaction network, the graph could be divided by different known
+cellular signalling pathways.
+
+\subsection{Plotting degree}\label{plotting-degree}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gNodeDegs <-}\StringTok{ }\KeywordTok{degree}\NormalTok{(G, }\DataTypeTok{gmode =} \StringTok{"graph"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(gNodeDegs, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{35}\NormalTok{), }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{), }\DataTypeTok{xlab =} \StringTok{"Degree"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Degree distribution of G"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/degree-1.pdf}
+
+\subsection{Binomial (Simulating an Erdos-Renyi model for
+G)}\label{binomial-simulating-an-erdos-renyi-model-for-g}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gDegMean <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(gNodeDegs)}
+\NormalTok{n <-}\StringTok{ }\KeywordTok{length}\NormalTok{(gNodeDegs)}
+\NormalTok{prob <-}\StringTok{ }\NormalTok{gDegMean }\OperatorTok{/}\StringTok{ }\NormalTok{(n}\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+\NormalTok{binomDegs <-}\StringTok{ }\KeywordTok{rbinom}\NormalTok{(n, n}\OperatorTok{-}\DecValTok{1}\NormalTok{, prob)}
+\KeywordTok{hist}\NormalTok{(binomDegs, }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{35}\NormalTok{), }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{), }\DataTypeTok{xlab =} \StringTok{"Degree"}\NormalTok{, }
+     \DataTypeTok{main =} \StringTok{"Degree distribution of ER network of same size and mean degree of G"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/binomial-1.pdf}
+
+G has a broad range of degree values. Variance is high, so many degree
+values are not clustered around the mean. As an ER network of the same
+size and mean degree has a narrower range of degree values clustered
+around the mean it is not a representative model of G. It is missing
+nodes of very low and very high degree, unlike G.
+
+\subsection{scale free degree}\label{scale-free-degree}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{k =}\StringTok{ }\DecValTok{2}\OperatorTok{:}\NormalTok{(n}\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+\NormalTok{unnormDensGam1 <-}\StringTok{ }\NormalTok{k}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+\NormalTok{unnormDensGam2 <-}\StringTok{ }\NormalTok{k}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{2}\NormalTok{)}
+\NormalTok{unnormDensGam3 <-}\StringTok{ }\NormalTok{k}\OperatorTok{^}\NormalTok{(}\OperatorTok{-}\DecValTok{3}\NormalTok{)}
+
+\KeywordTok{plot}\NormalTok{(k,unnormDensGam1, }\DataTypeTok{type=} \StringTok{"l"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"unnormalized density"}\NormalTok{, }\DataTypeTok{col=}\StringTok{"red"}\NormalTok{,}
+     \DataTypeTok{main =} \StringTok{"Power-law distributions"}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(k, unnormDensGam2, }\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\KeywordTok{lines}\NormalTok{(k, unnormDensGam3, }\DataTypeTok{col=}\StringTok{"green"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"center"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Gamma = 1"}\NormalTok{, }\StringTok{"Gamma = 2"}\NormalTok{, }\StringTok{"Gamma = 3"}\NormalTok{), }\DataTypeTok{col=} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{, }\StringTok{"green"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/scalefree-1.pdf}
+
+Scale free networks would be poor models for G as the high frequency of
+nodes with low degree is not characteristic of G. Out of the gamma
+values plotted above, a scale free network with gamma of 1 would be the
+best of the 3 scale free networks for modelling G as it has the higher
+frequency of nodes with higher degree.
+
+\subsection{Making 200 ER graphs}\label{making-200-er-graphs}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{er200 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{rep}\NormalTok{(n, }\DecValTok{200}\NormalTok{), }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{list}\NormalTok{(}\KeywordTok{sampleER}\NormalTok{(x, prob)))}
+\NormalTok{er200Btwn <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(er200, betweenness, }\DataTypeTok{gmode =} \StringTok{"graph"}\NormalTok{, }\DataTypeTok{cmode =} \StringTok{"undirected"}\NormalTok{)}
+\NormalTok{er200MeanBtwn <-}\StringTok{ }\KeywordTok{apply}\NormalTok{(er200Btwn, }\DecValTok{2}\NormalTok{, mean)}
+\NormalTok{gBetween <-}\StringTok{ }\KeywordTok{betweenness}\NormalTok{(G, }\DataTypeTok{gmode =} \StringTok{"graph"}\NormalTok{, }\DataTypeTok{cmode =} \StringTok{"undirected"}\NormalTok{)}
+\NormalTok{gMeanBtwn <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(gBetween)}
+\KeywordTok{hist}\NormalTok{(er200MeanBtwn, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{29}\NormalTok{, }\DecValTok{32}\NormalTok{), }\DataTypeTok{xlab =} \StringTok{"mean betweenness"}\NormalTok{,}
+     \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(}\StringTok{"Mean betweenness of ER networks of n ="}\NormalTok{, n, }\StringTok{"and p ="}\NormalTok{, }\KeywordTok{round}\NormalTok{(prob,}\DecValTok{4}\NormalTok{)))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =}\NormalTok{ gMeanBtwn, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Mean betweenness of G"}\NormalTok{), }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/200ER Betweenness-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{er200DegCen <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(er200, }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{centralization}\NormalTok{(x, degree, }\DataTypeTok{mode =} \StringTok{"graph"}\NormalTok{))}
+\NormalTok{gDegCen <-}\StringTok{ }\KeywordTok{centralization}\NormalTok{(G, degree, }\DataTypeTok{mode =} \StringTok{"graph"}\NormalTok{)}
+\KeywordTok{hist}\NormalTok{(er200DegCen, }\DataTypeTok{xlab =} \StringTok{"Degree centralization"}\NormalTok{, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.06}\NormalTok{, }\FloatTok{0.44}\NormalTok{), }
+     \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(}\StringTok{"Degree centralization of ER networks of n ="}\NormalTok{, n, }\StringTok{"and p ="}\NormalTok{, }\KeywordTok{round}\NormalTok{(prob,}\DecValTok{4}\NormalTok{)))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =}\NormalTok{ gDegCen, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"top"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Degree centralization of G"}\NormalTok{), }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/200ER degree centralization-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{er200LCC <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(er200, localclustering)}
+\NormalTok{gLCC <-}\StringTok{ }\KeywordTok{localclustering}\NormalTok{(G)}
+\KeywordTok{hist}\NormalTok{(er200LCC, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.4}\NormalTok{,}\FloatTok{0.9}\NormalTok{), }\DataTypeTok{xlab =} \StringTok{"mean local clustering coefficient"}\NormalTok{,}
+     \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(}\StringTok{"Mean local clustering coefficient of }\CharTok{\textbackslash{}n}\StringTok{ER networks of n ="}\NormalTok{, n, }\StringTok{"and p ="}\NormalTok{, }\KeywordTok{round}\NormalTok{(prob,}\DecValTok{4}\NormalTok{)))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =}\NormalTok{ gLCC, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"center"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Mean local clustering }\CharTok{\textbackslash{}n}\StringTok{coefficient of G"}\NormalTok{), }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/200ER local clustering coefficient-1.pdf}
+
+Betweenness is a measure of node importance via how often it appears on
+the shortest paths between pairs of nodes in the network.
+\(\displaystyle C_b(u) = \sum_{t,s \in V}\frac{\sigma_{st}(u)}{\sigma_{st}}\)
+\(\sigma_{st}(u)\) = number of shortest paths from node \(s\) to node
+\(t\) that go through node u \(\sigma_{st}\) = total number of shortest
+paths from node \(s\) to node \(t\)
+
+Degree centralization is a measure of how much the degree of the nodes
+in a network deviate from the max degree in the network (normalised to
+the theoretical max degree possible).
+\(\displaystyle deg^*(G) = \sum_{i\in V}|\max_{v \in V}(deg(v)) - deg(i)|\)
+
+Local clustering coefficient of a node \(u\) is a measure of the
+connectedness of the nodes in \(u\)'s neighbourhood. More formally it is
+a measure of number of edges between the nodes in \(u\)'s neighbourhood
+(not including edges with \(u\)) over the total number of edges possible
+for the neighbourhood.
+
+From the above histograms we can see that ER is a poor model for G. The
+smaller variance in degree compared to G is reflected in the degree
+centralization histogram, with the value for G falling considerably
+outside the distribution of the ER values. The Mean local clustering
+coefficient histogram shows that G's neighbourhoods are considerably
+more connected than those of a ER network. The mean betweenness of G
+being higher than the ER networks implies that there are less redundant
+shortest paths in G compared to the ER networks. The difference in
+values for these metrics implies G has a structure that gets lost when
+randomized. Genes with a specific function only involved in a specific
+pathway will be represented in G as a node with low degree. Likewise
+regulatory genes like transcription factors involved in multiple
+pathways would be represented as nodes of high degree. These nodes would
+not occur in graphs like ER where every node has roughly the same
+degree. How genes in the same pathways often regulate each other in
+various feedback loops is reflected in G's higher than random local
+clustering coefficient.
+
+\subsection{Making 200 graphs sampled from the degree distribution of
+G}\label{making-200-graphs-sampled-from-the-degree-distribution-of-g}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dd200 <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{200}\NormalTok{), }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{list}\NormalTok{(}\KeywordTok{rgraphFromDegreeDist}\NormalTok{(G)))}
+\NormalTok{dd200Btwn <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(dd200, betweenness, }\DataTypeTok{gmode =} \StringTok{"graph"}\NormalTok{, }\DataTypeTok{cmode =} \StringTok{"undirected"}\NormalTok{)}
+\NormalTok{dd200MeanBtwn <-}\StringTok{ }\KeywordTok{apply}\NormalTok{(dd200Btwn, }\DecValTok{2}\NormalTok{, mean)}
+\KeywordTok{hist}\NormalTok{(dd200MeanBtwn, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{31}\NormalTok{, }\DecValTok{43}\NormalTok{), }\DataTypeTok{xlab =} \StringTok{"mean betweenness"}\NormalTok{,}
+     \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(}\StringTok{"Mean betweenness of networks sampled from degree distribution of G"}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =}\NormalTok{ gMeanBtwn, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Mean betweenness of G"}\NormalTok{), }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/200dd Betweenness-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dd200DegCen <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(dd200, }\ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{centralization}\NormalTok{(x, degree, }\DataTypeTok{mode =} \StringTok{"graph"}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(dd200DegCen, }\DataTypeTok{xlab =} \StringTok{"Degree centralization"}\NormalTok{,}
+     \DataTypeTok{main =} \KeywordTok{paste}\NormalTok{(}\StringTok{"Degree centralization of networks }\CharTok{\textbackslash{}n}\StringTok{sampled from degree distribution of G"}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =}\NormalTok{ gDegCen, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\FloatTok{0.367}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Degree centralization of G"}\NormalTok{), }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/200dd degree centralizaion-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dd200LCC <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(dd200, localclustering)}
+\KeywordTok{hist}\NormalTok{(dd200LCC, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.5}\NormalTok{,}\FloatTok{0.85}\NormalTok{), }\DataTypeTok{xlab =} \StringTok{"Mean Local Clustering Coefficient"}\NormalTok{,}
+     \DataTypeTok{main =} \StringTok{"Mean local Clustering Coefficient of }\CharTok{\textbackslash{}n}\StringTok{networks sampled from degree distribution of G"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =}\NormalTok{ gLCC, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\FloatTok{0.66}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DataTypeTok{legend =} \KeywordTok{c}\NormalTok{(}\StringTok{"Mean local clustering }\CharTok{\textbackslash{}n}\StringTok{coefficient of G"}\NormalTok{), }\DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{), }\DataTypeTok{lty =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Lab2_files/figure-latex/200dd local clustering coefficient-1.pdf}
+
+Building a network by sampling from the degree distribution of G
+provides a model that is at least better than ER, but still looses the
+structures present in G. Unlike ER, the mean betweenness of these random
+graphs are all higher than that of G. This is possibly due to how G,
+being a natural network, would likely have intraconnected neigbourhoods
+representing specific pathways and a few nodes that connect the
+neighbourhoods to each other. The neigbourhood connecting nodes would
+have high betweenness but the mean value would be reduced by nodes in
+the neigbourhoods. This is because for a node in a neighbourhood \(v\),
+it would be unlikely to be on the shortest path between a pair of nodes
+where neither node are in \(v\)'s neighbourhood. As a random graph would
+not likely share this structure nodes would more likely be on shortest
+paths between other nodes. The degree centralization is centered around
+the degree centralization of G which is to be expected when sampling
+from the same degree distribution. The random graphs would have max
+degree values similar to that of G with the other degree values
+deviating a similar amount. Just like with ER networks, the mean local
+clustering coefficient are higher than these random graphs, also
+potentially indicating a `connected intraconnected neigbourhoods'
+structure. Random graphs without a bias towards connected neighbourhoods
+would have lower local clustering coefficient.
+
+\subsection{If we had a good model for
+G}\label{if-we-had-a-good-model-for-g}
+
+If the above historgrams were to be plotted for a good model of G, the
+values would be distributed around a mean equal to the values for G. A
+possible model to try for G would be one that, when building the network
+edge by edge, the probability of an edge between node \(s\) and \(t\)
+would increase depending on the size of the intersect between nodes in
+the neighbourhoods of \(s\) and \(t\). This would increase the average
+local clustering coefficient, hopefully better reflecting G.
+
+
+\end{document}

@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 .pdf
+*.data.tar
+*.data.tar.gz
+assembly*

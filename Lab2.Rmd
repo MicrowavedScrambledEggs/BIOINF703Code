@@ -1,8 +1,10 @@
 ---
-title: "BIOINF703 Lab 1"
+title: "BIOINF703 Lab 2"
 author: "Badi James"
-date: "August 7, 2018"
-output: pdf_document
+date: "August 14, 2018"
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -23,7 +25,7 @@ vTidy <- sapply(vNames, function(x) unlist(strsplit(x, "_"))[1])
 plot.network(G, mode = "kamadakawai", edge.col = rgb(red = 0, blue = 0, green = 0, alpha = 0.05), label = vTidy, label.cex = 0.5, label.col = "blue")
 ```
 
-This visualization of the network shows with some clarity the conections between the vertexes on the outside of the plot. However for the center of the plot the edges are indistinguishable. This does provide an overall picture of the complexity of the network but does not provide usefull information on the specific connections. A better approach would be to seperate the network into subnetworks. As this is a gene interaction network, the graph could be divided by different known cellular signalling pathways. 
+This visualization of the network shows with some clarity the conections between the vertexes on the outside of the plot. However for the center of the plot the edges are indistinguishable. This does provide an overall picture of the complexity of the network but does not provide usefull information on the specific connections. A better approach would be to seperate the network into subnetworks. As this is a gene interaction network, the graph could be divided by different known cellular signalling pathways, etc. 
 
 ## Plotting degree
 
@@ -99,10 +101,13 @@ legend("center", legend = c("Mean local clustering \ncoefficient of G"), col = c
 
 Betweenness is a measure of node importance via how often it appears on the shortest paths between pairs of nodes in the network. 
 $\displaystyle C_b(u) = \sum_{t,s \in V}\frac{\sigma_{st}(u)}{\sigma_{st}}$
+
 $\sigma_{st}(u)$ = number of shortest paths from node $s$ to node $t$ that go through node u
+
 $\sigma_{st}$ = total number of shortest paths from node $s$ to node $t$
 
 Degree centralization is a measure of how much the degree of the nodes in a network deviate from the max degree in the network (normalised to the theoretical max degree possible).
+
 $\displaystyle deg^*(G) = \sum_{i\in V}|\max_{v \in V}(deg(v)) - deg(i)|$
 
 Local clustering coefficient of a node $u$ is a measure of the connectedness of the nodes in $u$'s neighbourhood. More formally it is a measure of number of edges between the nodes in $u$'s neighbourhood (not including edges with $u$) over the total number of edges possible for the neighbourhood.
