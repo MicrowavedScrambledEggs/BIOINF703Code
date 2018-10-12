@@ -230,7 +230,7 @@ x <- as.matrix(sort.filt[,51:60])
 hmap5 <- heatmap.2(log(x+1), col = pal, scale="none", margins=c(9,10), trace="none", density.info="none", keysize=1, symkey=FALSE, symbreaks=FALSE, main="Log RPKM.COV", labRow=FALSE)
 #Top:
 x <- as.matrix(top.sortabs.filt[,51:60])
-hmap6 <- heatmap.2(log(x+1), col = pal, scale="none", margins=c(9,45), trace="none", density.info="none", keysize=0.6, symkey=FALSE, symbreaks=FALSE, main="Log Top RPKM.COV")
+hmap6 <- heatmap.2(log(x+1), col = pal, scale="none", margins=c(9,10), trace="none", density.info="none", keysize=0.6, symkey=FALSE, symbreaks=FALSE, main="Log Top RPKM.COV")
 
 ##Subset filtered data and plot as heatmaps: sorted by log fold change (annotated genes)
 #Top: Normalised
@@ -318,6 +318,28 @@ hmap2 <- heatmap.2(log(x+0.1), dendrogram="none", Rowv=FALSE, Colv=FALSE, col = 
                    cexCol = 0.9)
 
 ## Nitrate transport
+ntrans <-comb[comb$functional.category=="nitrate-transport",]
+ntrans[1,]; nrow(ntrans); ncol(ntrans)
+write.table(ntrans, "r-biofilm-nitrateTransport-output.csv", sep=",")
+##Heatmaps:
+par(mfrow=c(1,1))
+jet.colors <- colorRampPalette(c("white","blue")); pal <- jet.colors(256)
+
+x <- as.matrix(ntrans[,53:57]); x[1,]
+geneNamesNTrans <- rownames(x)
+rownames(x) <- 1:(nrow(x))
+hmap1 <- heatmap.2(log(x+0.1), dendrogram="none", Rowv=FALSE, Colv=FALSE, col = pal, 
+                   scale="row", margins=margins, trace="none", density.info="none", 
+                   symkey=FALSE, symbreaks=FALSE, main="log unnormalised",
+                   cexRow = 0.6, cexCol = 0.9)
+x <- as.matrix(ntrans[,58:62]); x[1,]
+rownames(x) <- 1:(nrow(x))
+hmap2 <- heatmap.2(log(x+0.1), dendrogram="none", Rowv=FALSE, Colv=FALSE, col = pal, 
+                   scale="row", margins=margins, trace="none", density.info="none", 
+                   symkey=FALSE, symbreaks=FALSE, main="log normalised", cexRow = 0.6,
+                   cexCol = 0.9)
+
+
 
 ## P transport
 ##Filter output to keep P-transport proteins:
@@ -330,13 +352,41 @@ par(mfrow=c(1,1))
 jet.colors <- colorRampPalette(c("white","blue")); pal <- jet.colors(256)
 #ptranssystems:
 x <- as.matrix(ptrans[,53:57]); x[1,]
+geneNamesPTrans <- rownames(x)
+rownames(x) <- 1:(nrow(x))
 hmap1 <- heatmap.2(log(x+0.1), dendrogram="none", Rowv=FALSE, Colv=FALSE, col = pal, 
-                   scale="row", margins=c(5,5), trace="none", density.info="none", 
-                   keysize=0.6, symkey=FALSE, symbreaks=FALSE, main="log unnormalised",
-                   cexRow = 1, cexCol = 1)
+                   scale="row", margins=margins, trace="none", density.info="none", 
+                   symkey=FALSE, symbreaks=FALSE, main="log unnormalised",
+                   cexRow = 0.6, cexCol = 0.9)
 x <- as.matrix(ptrans[,58:62]); x[1,]
+rownames(x) <- 1:(nrow(x))
 hmap2 <- heatmap.2(log(x+0.1), dendrogram="none", Rowv=FALSE, Colv=FALSE, col = pal, 
-                   scale="row", margins=c(11,11), trace="none", density.info="none", 
-                   keysize=0.6, symkey=FALSE, symbreaks=FALSE, main="log normalised",
-                   cexRow = 1, cexCol = 1)
+                   scale="row", margins=margins, trace="none", density.info="none", 
+                   symkey=FALSE, symbreaks=FALSE, main="log normalised", cexRow = 0.6,
+                   cexCol = 0.9)
+
+## ATP-synthase
+##Filter output to keep P-transport proteins:
+atp <-comb[comb$functional.category=="ATP-synthase",]
+atp[1,]; nrow(atp); ncol(atp)
+write.table(atp, "r-biofilm-atpsystems-output.csv", sep=",")
+
+##Heatmaps:
+par(mfrow=c(1,1))
+jet.colors <- colorRampPalette(c("white","blue")); pal <- jet.colors(256)
+#atpsystems:
+x <- as.matrix(atp[,53:57]); x[1,]
+geneNamesatp <- rownames(x)
+rownames(x) <- 1:(nrow(x))
+hmap1 <- heatmap.2(log(x+0.1), dendrogram="none", Rowv=FALSE, Colv=FALSE, col = pal, 
+                   scale="row", margins=margins, trace="none", density.info="none", 
+                   symkey=FALSE, symbreaks=FALSE, main="log unnormalised",
+                   cexRow = 0.6, cexCol = 0.9)
+x <- as.matrix(atp[,58:62]); x[1,]
+rownames(x) <- 1:(nrow(x))
+hmap2 <- heatmap.2(log(x+0.1), dendrogram="none", Rowv=FALSE, Colv=FALSE, col = pal, 
+                   scale="row", margins=margins, trace="none", density.info="none", 
+                   symkey=FALSE, symbreaks=FALSE, main="log normalised", cexRow = 0.6,
+                   cexCol = 0.9)
+
 
